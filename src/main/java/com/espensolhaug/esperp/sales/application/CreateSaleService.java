@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class CreateSaleService {
-    private SaleRepository saleRepository;
+    // private SaleRepository saleRepository;
 
     public Sale createSale(CreateSaleRequest request) {
         List<SaleItem> items;
