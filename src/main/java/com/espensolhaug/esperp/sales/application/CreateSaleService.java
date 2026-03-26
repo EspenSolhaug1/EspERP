@@ -9,22 +9,23 @@ import java.util.List;
 import java.util.UUID;
 
 public class CreateSaleService {
-    // private SaleRepository saleRepository;
+    private SaleRepository repository;
 
+    public CreateSaleService(SaleRepository repository) {
+        this.repository = repository;
+    }
     public Sale createSale(CreateSaleRequest request) {
-        List<SaleItem> items;
-        BigDecimal totalAmount;
-        Payment payment;
         if (!validate(request)) {
             throw new IllegalArgumentException("Invalid request");
         }
 
-        items = mapItems(request);
-        totalAmount = calculateTotalAmount(items);
-        payment = createPayment(request, totalAmount);
+        List<SaleItem> items = mapItems(request);
+        BigDecimal totalAmount = calculateTotalAmount(items);
+        Payment payment = createPayment(request, totalAmount);
 
         LocalDateTime timestamp = LocalDateTime.now();
-        return new Sale(
+
+        Sale sale = new Sale(
                 UUID.randomUUID(),
                 request.getCustomer(),
                 request.getCashier(),
@@ -35,6 +36,8 @@ public class CreateSaleService {
                 items,
                 totalAmount
         );
+        repository.save(sale);
+        return sale;
     }
 
     private boolean validate(CreateSaleRequest request) {
