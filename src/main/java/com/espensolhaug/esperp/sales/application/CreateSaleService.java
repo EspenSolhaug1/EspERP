@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class CreateSaleService {
-    private SaleRepository repository;
+    private final SaleRepository repository;
 
     public CreateSaleService(SaleRepository repository) {
         this.repository = repository;
     }
+
     public Sale createSale(CreateSaleRequest request) {
         if (!validate(request)) {
             throw new IllegalArgumentException("Invalid request");
@@ -41,20 +42,20 @@ public class CreateSaleService {
     }
 
     private boolean validate(CreateSaleRequest request) {
-        if ( request.getCustomer().isBlank() ) {
+        if (request.getCustomer().isBlank()) {
             return false;
         }
-        if ( request.getCashier().isBlank() ) {
+        if (request.getCashier().isBlank()) {
             return false;
         }
-        if ( request.getStore().isBlank() ) {
+        if (request.getStore().isBlank()) {
             return false;
         }
-        if ( request.getSaleItems().stream()
-                .anyMatch( item ->
+        if (request.getSaleItems().stream()
+                .anyMatch(item ->
                         item.getProduct().isBlank() ||
-                        item.getPriceAtSaleTime().compareTo(BigDecimal.ZERO) <= 0 ||
-                        item.getQuantity() <= 0)) {
+                                item.getPriceAtSaleTime().compareTo(BigDecimal.ZERO) <= 0 ||
+                                item.getQuantity() <= 0)) {
             return false;
         }
         return true;
@@ -62,15 +63,15 @@ public class CreateSaleService {
 
     private List<SaleItem> mapItems(CreateSaleRequest request) {
         List<SaleItem> saleItems = new ArrayList<>();
-        request.getSaleItems().forEach( item -> {
-            saleItems.add(
-                    new SaleItem(
-                            item.getProduct(),
-                            item.getQuantity(),
-                            item.getPriceAtSaleTime()
-                    )
-            );
-        });
+        request.getSaleItems().forEach(item ->
+                saleItems.add(
+                        new SaleItem(
+                                item.getProduct(),
+                                item.getQuantity(),
+                                item.getPriceAtSaleTime()
+                        )
+                )
+        );
         return saleItems;
     }
 
