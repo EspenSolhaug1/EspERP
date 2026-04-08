@@ -28,7 +28,7 @@ public class ERPApplication extends javafx.application.Application {
             try {
                 return type.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
-                throw new RuntimeException();
+                throw new RuntimeException("Failed to create controller: " + type, e);
             }
         });
 

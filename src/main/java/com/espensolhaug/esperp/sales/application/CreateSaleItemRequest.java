@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 
-
 public class CreateSaleItemRequest {
     @Getter
     private String product;

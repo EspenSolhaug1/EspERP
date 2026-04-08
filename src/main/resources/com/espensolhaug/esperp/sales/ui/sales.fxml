@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.geometry.Insets?>
-<VBox xmlns:fx="http://javafx.com/fmxl" fx:controller="com.espensolhaug.esperp.sales.ui.SalesController">
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.espensolhaug.esperp.sales.ui.SalesController">
     <padding>
         <Insets topRightBottomLeft="10"/>
     </padding>
@@ -19,15 +19,7 @@
     <TextField fx:id="customerField" GridPane.rowIndex="0" promptText="Enter customer name..."/>
     <TextField fx:id="cashierField" GridPane.rowIndex="1" promptText="Enter cashier name..."/>
     <TextField fx:id="storeField" GridPane.rowIndex="2" promptText="Enter store name..."/>
-    <ChoiceBox fx:id="paymentBox" GridPane.rowIndex="3">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="CARD"/>
-                <String fx:value="CASH"/>
-                <String fx:value="VIPPS"/>
-            </FXCollections>
-        </items>
-    </ChoiceBox>
+    <ChoiceBox fx:id="paymentBox" GridPane.rowIndex="3" />
     <TextField fx:id="productField" GridPane.rowIndex="4" promptText="Enter product name..."/>
     <TextField fx:id="quantityField" GridPane.rowIndex="5" promptText="Enter quantity"/>
     <TextField fx:id="priceField" GridPane.rowIndex="6" promptText="Enter price"/>

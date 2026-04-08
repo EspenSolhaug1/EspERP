@@ -24,15 +24,4 @@ public class CreateSaleRequest {
         this.paymentMethod = paymentMethod;
         this.saleItems = saleItems;
     }
-
-    @Override
-    public String toString() {
-        return "CreateSaleRequest{" +
-                "customer='" + customer + '\'' +
-                ", cashier='" + cashier + '\'' +
-                ", store='" + store + '\'' +
-                ", paymentMethod=" + paymentMethod +
-                ", saleItems=" + saleItems.toString() +
-                '}';
-    }
 }

@@ -76,7 +76,10 @@ public class CreateSaleService {
     }
 
     private BigDecimal calculateTotalAmount(List<SaleItem> items) {
-        return items.stream().map(SaleItem::getPriceAtSaleTime).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return items.stream()
+                .map(item -> item.getPriceAtSaleTime()
+                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private Payment createPayment(CreateSaleRequest request, BigDecimal amount) {
