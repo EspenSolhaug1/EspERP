@@ -5,6 +5,8 @@ import com.espensolhaug.esperp.sales.application.CreateSaleService;
 import com.espensolhaug.esperp.sales.application.ListSalesService;
 import com.espensolhaug.esperp.sales.domain.PaymentMethod;
 
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -51,7 +53,20 @@ public class SalesController {
         customerColumn.setCellValueFactory(data -> data.getValue().customerProperty());
         totalColumn.setCellValueFactory(data -> data.getValue().totalProperty());
         statusColumn.setCellValueFactory(data -> data.getValue().statusProperty());
-
+        // Validator binding
+        bindValidationStyle(customerField, form.customerInvalidVisible());
+        bindValidationStyle(cashierField, form.cashierInvalidVisible());
+        bindValidationStyle(storeField, form.storeInvalidVisible());
+        bindValidationStyle(productField, form.productInvalidVisible());
+        bindValidationStyle(quantityField, form.quantityInvalidVisible());
+        bindValidationStyle(priceField, form.priceInvalidVisible());
+        // Check for first user interaction
+        setupTouchedListener(customerField, form.customerTouchedProperty());
+        setupTouchedListener(cashierField, form.cashierTouchedProperty());
+        setupTouchedListener(storeField, form.storeTouchedProperty());
+        setupTouchedListener(productField, form.productTouchedProperty());
+        setupTouchedListener(quantityField, form.quantityTouchedProperty());
+        setupTouchedListener(priceField, form.priceTouchedProperty());
         refreshTable();
     }
 
@@ -72,6 +87,27 @@ public class SalesController {
         } catch (IllegalArgumentException e) {
             showError(e.getMessage());
         }
+    }
+
+    private void bindValidationStyle(Control control, BooleanBinding isValid) {
+        isValid.addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                control.setStyle("-fx-border-color: red;");
+            } else  {
+                control.setStyle("");
+            }
+        });
+        if(isValid.get()) {
+            control.setStyle("-fx-border-color: red;");
+        }
+    }
+
+    private void setupTouchedListener(TextField field, BooleanProperty touchedProperty) {
+        field.focusedProperty().addListener((obs, oldVal, focused) -> {
+            if (!focused) { // user left the field
+                touchedProperty.set(true);
+            }
+        });
     }
 
     private void showError(String message) {
